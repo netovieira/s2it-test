@@ -1,0 +1,28 @@
+{
+  "name": "s2ti-test",
+  "version": "1.0.0",
+  "description": "TaskList - S2TI Test",
+  "main": "Gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-bower": "^0.0.13",
+    "gulp-concat": "^2.6.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-jshint": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "jshint": "^2.9.2",
+    "gulp-ruby-sass": "^2.0.6",
+    "gulp-uglify": "^2.0.0",
+    "stream-series": "*",
+    "gulp-webserver": "^0.9.1"
+  },
+  "devDependencies": {
+    "gulp-inject": "^4.1.0",
+    "gulp-ruby-sass": "^2.0.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anthero Vieira Neto",
+  "license": "ISC"
+}
