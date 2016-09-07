@@ -10,7 +10,12 @@ npm install
 bower install
 
 #Após tudo devidamente instalado execute:
+gulp
+
+e depois:
+
 gulp webserver
+
 
 Esse comando (gulp webserver) irá gerar os arquivos e criar um servidor html, onde vocês conseguirão testar o projeto. 
 
