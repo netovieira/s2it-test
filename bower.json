@@ -1,0 +1,10 @@
+{
+  "name": "s2ti-test",
+  "version": "1.0.0",
+  "dependencies": {
+    "jquery": ">=3.1.0",
+    "materialize": ">=0.97.3",
+    "angular": ">=1.5.8"
+  },
+  "private": true
+}

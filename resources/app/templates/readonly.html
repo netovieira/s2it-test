@@ -1,0 +1,7 @@
+<td>{{r.type}}</td>
+<td class="currency">{{r.value | currency:"R$"}}</td>
+<td>
+    <button ng-click="editRelease(r.index)" class="save btn btn-flat yellow darken-1 white-text waves-effect waves-light tooltipped"
+            data-position="bottom" data-delay="50" data-tooltip="Clique aqui para editar!"><i class="material-icons">edit</i></button>
+    <a ng-click="removeRelease(r.index)" class="right remove btn btn-flat red darken-2 white-text waves-effect waves-light">Remover</a>
+</td>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="S2TiTestApp">
+<head>
+    <title>S2TI - Frontend Test</title>
+    <meta http-equiv="content-type"     content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-language" content="pt-br" />
+    <meta http-equiv="imagetoolbar"     content="no" />
+
+    <meta name='theme-color'   content='#555555'/>
+    <meta name="description"   content="Teste para a vaga de Frontend - S2Ti Araraquara - SP">
+    <meta name="keywords"      content="teste, s2ti, vagas, emprego, frontend, angular, gulp, sass, javascript, css, html, materialize, bower, npm, git, github, anthero, neto, tasklist">
+    <meta name="author"        content="Anthero Vieira Neto" />
+    <meta name="copyright"     content="Anthero Vieira Neto" />
+    <meta name="viewport"      content="width=device-width, initial-scale=1.0"/>
+    <meta name="robots"        content="Follow" />
+    <meta name="generator"     content="JetBrains WebStorm 2016.2" />
+    <meta name="revisit-after" content="30 days" />
+    <meta name="rating"        content="general" />
+
+    <link href="http://s2it.com.br/wp-content/themes/S2/assets/images/favicon.png" rel="shortcut icon"/>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons"            rel="stylesheet">
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css" />
+    <!-- endinject -->
+</head>
+<body ng-cloak>
+    <nav class="top-nav light-blue lighten-2">
+        <div class="container">
+            <div class="nav-wrapper"><a class="page-title" href="javascript:void(0)">S2TI - Frontend Test</a></div>
+        </div>
+    </nav>
+
+    <div class="container" ng-controller="S2TiTestCtrl">
+        <div class="row">
+            <form name="ReleaseForm" ng-submit="addRelease()">
+                <div class="input-field col s6 m2">
+                    <input set-focus="{{FocusMe}}" class="with-gap" name="typeRelease" class="validate" ng-model="release.type" value="Saque" type="radio" id="saque"  required />
+                    <label for="saque">Saque</label>
+                </div>
+                <div class="input-field col s6 m2">
+                    <input class="with-gap" name="typeRelease" class="validate" ng-model="release.type" value="Depósito" type="radio" id="deposito"  required />
+                    <label for="deposito">Depósito</label>
+                </div>
+                <div class="input-field col s12 m5">
+                    <input id="value" step=any type="number" ng-model="release.value"  required>
+                    <label for="value">Valor</label>
+                </div>
+                <div class="input-field col s12 m3">
+                    <button type="submit" ng-disabled="!ReleaseForm.$valid" class="btn btn-flat light-blue lighten-2 white-text waves-effect waves-light right">Adicionar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <table class="striped highlight bordered">
+                    <thead>
+                    <tr>
+                        <th ng-click="sortType = 'type'; sortReverse = !sortReverse">Tipo</th>
+                        <th ng-click="sortType = 'value'; sortReverse = !sortReverse">Valor</th>
+                        <th width="200px">&nbsp;</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr
+                        ng-repeat="r in releases | orderBy:sortType:sortReverse"
+                        ng-click="editRelease(r.index)" ng-include="getTemplate(r.template)">
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="3">
+                                <p class="right"
+                                   ng-class="{'negativo' : (total < 0)}">
+                                    Total: R$ {{ total | currency:''}}
+                                </p>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- inject:js -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/materialize/dist/js/materialize.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular/ngStorage.min.js"></script>
+    <script src="resources/app/app.js"></script>
+    <script src="resources/js/custom.js"></script>
+    <!-- endinject -->
+
+</body>
+</html>

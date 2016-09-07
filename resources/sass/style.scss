@@ -1,0 +1,93 @@
+//Não havia necessidade, porém fiz assim para mostrar que sei usar SASS
+$font-default: Helvetica, sans-serif, Arial;
+$color-saque: #dd2c00;
+$color-deposito: #00c853;
+$color-radio: #4fc3f7;
+
+
+.saque,
+.negativo{
+  color: $color-saque;
+}
+
+.deposito{
+  color: $color-deposito;
+}
+
+nav.top-nav a.page-title {
+  line-height: 122px;
+  font-size: 48px;
+}
+
+nav.top-nav {
+  height: 122px;
+  box-shadow: none;
+  margin-bottom: 50px;
+}
+
+form{
+  
+  input:focus:not([readonly]) + label {
+    color: $color-radio!important;
+  }
+
+  .input-field input:focus {
+    border-bottom: 1px solid $color-radio!important;
+    box-shadow: 0 1px 0 0 $color-radio!important;
+  }
+
+  .with-gap[type="radio"]:checked + label::before,
+  .with-gap[type="radio"]:checked + label::after {
+    border: 2px solid $color-radio!important;
+  }
+
+  [type="radio"]:checked + label::after,
+  .with-gap[type="radio"]:checked + label::after {
+    background-color: $color-radio!important;
+    z-index: 0;
+  }
+}
+
+table{
+  thead tr,
+  tbody td {
+    cursor: pointer;
+  }
+  tbody {
+    tr:hover{
+      background-color: rgba(64, 149, 191, 0.15) !important;
+    }
+    .btn.remove {
+      margin-right: 10px;
+    }
+  }
+
+  .input-field{
+    select{
+      display: inline-block!important;
+    }
+  }
+
+  .save{
+    width: 40px;
+    padding:0;
+  }
+
+  .input-field input{
+    margin-top: 15px!important;
+  }
+}
+
+.btn{
+  text-transform: capitalize!important;
+}
+
+//Remove spin buttons dos campos tipo number
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
