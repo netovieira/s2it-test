@@ -6,6 +6,7 @@ Tentei utilizar várias linguagens e frameworks, sem fugir do projeto e não dei
 
 #Após clonar o repositório rode os comandos
 npm install
+
 bower install
 
 #Após tudo devidamente instalado execute:
