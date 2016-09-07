@@ -13,3 +13,7 @@ bower install
 gulp webserver
 
 Esse comando (gulp webserver) irá gerar os arquivos e criar um servidor html, onde vocês conseguirão testar o projeto. 
+
+
+#Versão de distribuição (1.0.0)
+pasta: public
