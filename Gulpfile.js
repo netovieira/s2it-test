@@ -1,15 +1,13 @@
 // Aqui nós carregamos o gulp e os plugins através da função `require` do nodejs
 var gulp   = require('gulp'),
     inject = require('gulp-inject'),
+    ss     = require('stream-series'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     sass   = require('gulp-ruby-sass'),
     notify = require("gulp-notify"),
-    bower  = require('gulp-bower'),
-    htmlmin = require('gulp-html-minifier'),
-    removeHtmlComments = require('gulp-remove-html-comments'),
     webserver = require('gulp-webserver');
 
 
@@ -18,20 +16,12 @@ var config = {
     sassPath: './resources/sass',
     bowerDir: './bower_components',
     jsPath: './resources/js',
+    appPath: './resources/app',
     indexPath: './',
-    pagesPath: './pages',
     publicPath: './public'
 };
 
-//Gera um arquivo contendo todos os icones
-gulp.task('icons', function() {
-    return gulp.src([
-        config.bowerDir + '/font-awesome/fonts/**.*',
-        config.bowerDir + '/materialize/fonts/roboto/**.*'
-    ])
-    .pipe(gulp.dest(config.publicPath+'/fonts'));
-});
-//Copia as fontes
+//Copio todas as fontes
 gulp.task('fonts', function() {
     return gulp.src([
         config.bowerDir + '/materialize/fonts/**/**.*'
@@ -39,18 +29,16 @@ gulp.task('fonts', function() {
         .pipe(gulp.dest(config.publicPath+'/fonts'));
 });
 
-//Aqui criamos uma nova tarefa através do ´gulp.task´ e damos a ela o nome 'lint'
+//Verifico dicas e erros no meu código Javascript
 gulp.task('lint', function() {
 
-// Aqui carregamos os arquivos que a gente quer rodar as tarefas com o `gulp.src`
-// E logo depois usamos o `pipe` para rodar a tarefa `jshint`
     gulp.src(config.jsPath+'/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
 //Transforma o SASS em CSS
-gulp.task('css', function() {
+gulp.task('sass2css', function() {
     sass(config.sassPath + '/style.scss', {
         loadPath: [
             './resources/sass'
@@ -62,27 +50,7 @@ gulp.task('css', function() {
     .pipe(gulp.dest(config.publicPath+'/css'));
 });
 
-//Adiciono os scripts e css no index.html
-gulp.task('inject_all', function() {
-
-    var resources = gulp.src([
-        config.publicPath+'/**/**/**'
-    ], {read: false});
-
-    return gulp.src(config.publicPath+'/index.html')
-        .pipe(inject(resources, {
-            ignorePath: '/public'
-        }))
-        .pipe(gulp.dest(config.publicPath));
-});
-
-//Criamos outra tarefa com o nome 'dist'
-gulp.task('dist', function() {
-
-// Carregamos os arquivos novamente
-// E rodamos uma tarefa para concatenação
-// Renomeamos o arquivo que sera minificado e logo depois o minificamos com o `uglify`
-// E pra terminar usamos o `gulp.dest` para colocar os arquivos concatenados e minificados na pasta build/
+gulp.task('dist', ['lint'], function() {
     gulp.src(config.jsPath+'/*.js')
         .pipe(concat(config.publicPath))
         .pipe(rename('dist.min.js'))
@@ -92,35 +60,59 @@ gulp.task('dist', function() {
 
 //Envia index para a pasta public
 gulp.task('copy_index', function(){
-    return gulp.src([
-        config.indexPath + '/index.html'
-    ])
+    return gulp.src([ config.indexPath + '/index.html' ])
+               .pipe(gulp.dest(config.publicPath));
+});
+//Copia o App Angular para a pasta public
+gulp.task('copy_angular', function(){
+    return gulp.src([ config.appPath + '/*.js' ])
+               .pipe(gulp.dest(config.publicPath+'/app'));
+});
+//Copia os arquivos json para a pasta public
+gulp.task('copy_templates', function(){
+    return gulp.src([ config.appPath + '/templates/*' ])
+               .pipe(gulp.dest(config.publicPath+'/app/templates'));
+});
+
+//Adiciono os scripts e css no index.html
+gulp.task('inject_all', ['sass2css', 'dist', 'copy_index', 'copy_css', 'copy_js', 'copy_angular', 'copy_templates'], function() {
+
+    var CssFiles = gulp.src([
+        config.publicPath+'/css/**/**'
+    ], {read: false});
+    var Components = gulp.src([
+        config.publicPath+'/js/components/**'
+    ], {read: false});
+    var CustomJS = gulp.src([
+        config.publicPath+'/js/custom/**'
+    ], {read: false});
+    var AngularApp = gulp.src([
+        config.publicPath+'/app/**'
+    ], {read: false});
+
+    return gulp.src(config.publicPath+'/index.html')
+        .pipe(inject(ss(CssFiles, Components, AngularApp, CustomJS), {
+            ignorePath: '/public'
+        }))
         .pipe(gulp.dest(config.publicPath));
-});
-
-//Envia as páginas para a pasta public/pages
-gulp.task('copy_pages', function(){
-    return gulp.src([
-        config.pagesPath + '/*.html'
-    ])
-    .pipe(gulp.dest(config.publicPath+'/pages'));
-});
-
-//Envia as images/videos/vetores para a pasta public
-gulp.task('copy_assets', function(){
-    return gulp.src([
-        config.indexPath + '/assets/**/**'
-    ])
-    .pipe(gulp.dest(config.publicPath+'/assets'));
 });
 
 //Envia as páginas para a pasta public/pages
 gulp.task('copy_js', function(){
     return gulp.src([
         config.bowerDir+'/jquery/dist/jquery.min.js',
-        config.bowerDir+'/materialize/dist/js/materialize.min.js'
+        config.bowerDir+'/materialize/dist/js/materialize.min.js',
+        config.bowerDir+'/angular/angular.min.js',
+        config.bowerDir+'/angular/ngStorage.min.js'
     ])
-        .pipe(gulp.dest(config.publicPath+'/js'));
+        .pipe(gulp.dest(config.publicPath+'/js/components'));
+});
+//Envia o css dos componentes para a pasta public/pages
+gulp.task('copy_css', function(){
+    return gulp.src([
+        config.bowerDir+'/materialize/dist/css/*.min.css'
+    ])
+    .pipe(gulp.dest(config.publicPath+'/css'));
 });
 
 //Criamos uma tarefa 'default' que vai rodar quando rodamos `gulp` no projeto
@@ -128,27 +120,15 @@ gulp.task('default', function() {
 
 // Usamos o `gulp.run` para rodar as tarefas
 // E usamos o `gulp.watch` para o Gulp esperar mudanças nos arquivos para rodar novamente
-    var tasks = ['lint', 'dist', 'icons', 'fonts', 'css', 'copy_js', 'copy_index', 'copy_pages', 'copy_assets', 'inject_all'];
+    var tasks = ['inject_all'];
     gulp.run(tasks);
     var watchFiles = [
         config.indexPath+'/index.html',
-        config.indexPath+'/assets/**/*',
         config.indexPath+'/resources/**/*',
-        config.indexPath+'/pages/*'
-    ]
+    ];
     gulp.watch(watchFiles, function (evt) {
         gulp.run(tasks);
     })
-});
-
-//Minifica os arquivos HTML
-gulp.task('minify_html', ['inject_all'], function(){
-    return gulp.src([
-        config.publicPath + '/**/*.html'
-    ])
-    .pipe(htmlmin({collapseWhitespace: true}))
-    .pipe(removeHtmlComments())
-    .pipe(gulp.dest(config.publicPath));
 });
 
 //Roda um servidor com o site

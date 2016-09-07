@@ -1,0 +1,15 @@
+<form>
+    <td class="input-field">
+        <select ng-model="r.type">
+            <option value="Saque">Saque</option>
+            <option value="Depósito">Depósito</option>
+        </select>
+    </td>
+    <td class="input-field">
+        <input id="value" step=any type="number" ng-model="r.value" required></td>
+    <td>
+            <button ng-click="saveRelease(r.index)" class="save btn btn-flat light-blue lighten-2 white-text waves-effect waves-light tooltipped"
+                    data-position="bottom" data-delay="50" data-tooltip="Salvar lançamento"><i class="material-icons">&#xE161;</i></button>
+            <a ng-click="removeRelease(r.index)" class="right remove btn btn-flat red darken-2 white-text waves-effect waves-light">Remover</a>
+    </td>
+</form>
