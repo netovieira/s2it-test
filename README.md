@@ -7,15 +7,15 @@ Tentei utilizar várias linguagens e frameworks, sem fugir do projeto e não dei
 
 ### Após clonar o repositório rode os comandos
 --------
-```
-  - npm install
-  - bower install
+```sh
+  $ npm install
+  $ bower install
 ```
 ### Após tudo devidamente instalado execute
 --------
-```
-  - gulp               *executa* as tarefas responsáveis por gerar a versão de distribuição
-  - gulp webserver     *roda um servidor onde é possivel testar o projeto*
+```sh
+  $ gulp               executa as tarefas responsáveis por gerar a versão de distribuição
+  $ gulp webserver     roda um servidor onde é possivel testar o projeto
 ```
 
 
