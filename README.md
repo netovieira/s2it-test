@@ -10,14 +10,9 @@ npm install
 bower install
 
 #Após tudo devidamente instalado execute:
-gulp
+gulp ( executa as tarefas responsáveis por gerar a versão de distribuição ) 
 
-e depois:
-
-gulp webserver
-
-
-Esse comando (gulp webserver) irá gerar os arquivos e criar um servidor html, onde vocês conseguirão testar o projeto. 
+gulp webserver ( roda um servidor onde é possivel testar o projeto )
 
 
 #Versão de distribuição (1.0.0)
