@@ -9,10 +9,10 @@ Tentei utilizar várias linguagens e frameworks, sem fugir do projeto e não dei
   $ npm install
   $ bower install
 ```
-### Após tudo devidamente instalado execute
+### Tarefas do Gulp
 ```sh
-  $ gulp               executa as tarefas responsáveis por gerar a versão de distribuição
-  $ gulp webserver     roda um servidor onde é possivel testar o projeto
+  $ gulp               gera a versão de distribuição
+  $ gulp webserver     gera a versão de distribuição e roda um servidor onde é possivel testar o projeto
 ```
 
 ------
