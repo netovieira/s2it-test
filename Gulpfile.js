@@ -132,7 +132,7 @@ gulp.task('default', function() {
 });
 
 //Roda um servidor com o site
-gulp.task('webserver', ['default'], function() {
+gulp.task('webserver', ['inject_all', 'default'], function() {
     gulp.src(config.publicPath)
         .pipe(webserver({
             livereload: true,
