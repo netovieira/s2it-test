@@ -1,4 +1,4 @@
-# s2ti-test
+# S2TI Test
 Teste de avaliação - S2TI
 
 Tentei utilizar várias linguagens e frameworks, sem fugir do projeto e não deixá-lo pesado.
