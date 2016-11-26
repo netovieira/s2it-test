@@ -1,5 +1,5 @@
-# S2TI Test
-Teste de avaliação - S2TI
+# S2IT Test
+Teste de avaliação - S2IT
 
 Tentei utilizar várias linguagens e frameworks, sem fugir do projeto e não deixá-lo pesado.
 
